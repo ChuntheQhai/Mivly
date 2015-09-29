@@ -1,0 +1,15 @@
+	<div class="container_back"></div>
+	<div class="container">
+		<div class="main">
+			<h1>Miz.ly</h1>
+			<h4>Shorten and track your URL anytime anywhere.</h4>
+			<%= render 'form', :url => @url %>
+
+		</div>
+
+		<%= render 'list', :urls => @urls, :shortenURL => @shortenURL %>
+	</div>
+
+	
+
+	

@@ -1,0 +1,22 @@
+	<div class="container_list_back"></div>
+	<div class="container_list">
+		<h1> Listing Shortener URL </h1>
+		<table>
+			<tr>
+				<th>Original URL</th>
+				<th>Shorten URL</th>
+				<th>Created at</th>
+				<th>Clicks</th>
+			</tr>
+
+			<% @urls.each do |url| %>
+			<tr>
+				<td><%= url.original_url %></td>
+				<td><%= link_to @shortenURL+url.unique_key, @shortenURL+url.unique_key, target: "_blank"  %></td>
+				<td><%= url.created_at %></td>
+				<td>0</td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+	

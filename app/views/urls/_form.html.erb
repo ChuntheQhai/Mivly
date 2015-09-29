@@ -1,0 +1,32 @@
+<div class="action_shortener">
+				<%= form_for(@url) do |f| %>
+					<div id="shrink_url" style="float:left; width: 70%;" class="shorten-input input-group input-group-lg">
+							<span class="shorten-input input-group-addon glyphicon glyphicon-globe" id="sizing-addon1"></span>
+
+	 						<%= f.text_field :original_url, :id => 'shrink_url_input', :class => 'form-control',:placeholder => 'Enter your URL here' %>
+
+							<span class='icon-copy glyphicon glyphicon-copy' style='display:none'></span>
+					</div>
+					<div class="action_container">
+						
+						<%= f.submit :Shrink, :id => 'btn_shrink', :class => "btn btn-success" %>
+						<%= f.hidden_field :unique_key, :value => @url.unique_key %>
+						<!-- <div type="submit" name="commit" id="btn_shrink"class="btn btn-success">
+							<span>Shrink</span>
+						</div> -->
+
+						
+					</div>
+				<% end %>
+				<div class="action_status" style="display:none;">
+					<span>
+						Copied URL!
+					</span>
+				</div>
+				<div class="action_reshrink" style="display:none;clear:both">
+					<span>
+						<a id="btn_reshrink"> Shorten another link</a> 
+					</span>
+				</div>
+				
+			</div>
