@@ -14,7 +14,7 @@
 				<td><%= url.original_url %></td>
 				<td><%= link_to @shortenURL+url.unique_key, @shortenURL+url.unique_key, target: "_blank"  %></td>
 				<td><%= url.created_at %></td>
-				<td>0</td>
+				<td><%= url.click_count %> </td>
 			</tr>
 			<% end %>
 		</table>
