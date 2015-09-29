@@ -7,7 +7,7 @@ class UrlsController < ApplicationController
 		@hostname = request.host
 		@hostport = request.port
 		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
-		
+
 
 
 
@@ -17,6 +17,7 @@ class UrlsController < ApplicationController
 		url = Url.where(:unique_key => params[:id]).first
 
 		if url
+			url.increment!(:click_count)
 			redirect_to url.original_url
 		else
 			render "index"
