@@ -14,6 +14,11 @@ $(document).on 'click', '#btn_shrink', ->
 
   $('.action_reshrink').css "display", "block"
   $('.icon-copy').css "display", "block"
+
+  #Refresh list of shorten URLs
+  #$("form#new_url").submit()
+  $('form#form-add-url').unbind('submit').submit() 
+
   return
 
 $(document).on 'click', '#btn_copyURL', ->
@@ -47,4 +52,43 @@ $(document).on 'click', '#btn_reshrink', ->
 
   $('.action_reshrink').css "display", "none"
   $('.icon-copy').css "display", "none"
+
+  unique_key = $('div.action_container input').attr('value')
+  md5 = $.md5(unique_key)
+  md5_uniquekey = md5.substr(1,8)
+  $('div.action_container input').attr('value',md5_uniquekey)
+
   return
+
+
+$(document).on 'submit', 'form#form-add-url', (e) ->
+  e.preventDefault()
+  e.stopImmediatePropagation()
+  values = $(this).serialize()
+  $.ajax
+    type: 'POST'
+    url: $(this).attr('action')
+    data: values
+    dataType: 'JSON'
+    success: (data) ->
+      $('.partial_dynamic').load '/refresh/list'
+      $('#shrink_url_input').val(data['shortedURL'])
+      alert values
+      alert 'SUCCESS'
+      return
+  false
+
+# $('#new_url').submit ->
+#   values = $(this).serialize()
+#   $.ajax
+#     type: 'POST'
+#     url: $(this).attr('action')
+#     data: values
+#     dataType: 'JSON'
+#     success: ->
+#       $('.partial_dynamic').load '/refresh/list'
+#       alert 'SUCCESS'
+#       return
+#     false
+
+

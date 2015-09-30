@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 body {
-	background: url('https://s3-ap-southeast-1.amazonaws.com/mindvalley/bg.jpg') no-repeat center center fixed;
+	background: url('https://s3-ap-southeast-1.amazonaws.com/mindvalley/background') no-repeat center center fixed;
 	-webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -43,10 +43,8 @@ body {
 	width: 22%;
 	float:left;
 
-	input {
-		width: 100%;
+	div {
 		border-radius: 0px;
-		height:46px;
 	}
 }
 

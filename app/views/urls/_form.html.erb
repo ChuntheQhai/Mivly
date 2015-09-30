@@ -1,5 +1,5 @@
 <div class="action_shortener">
-				<%= form_for(@url) do |f| %>
+				<%= form_for(@url, :remote => true,:html => {:id => 'form-add-url'}) do |f| %>
 					<div id="shrink_url" style="float:left; width: 70%;" class="shorten-input input-group input-group-lg">
 							<span class="shorten-input input-group-addon glyphicon glyphicon-globe" id="sizing-addon1"></span>
 
@@ -9,9 +9,11 @@
 					</div>
 					<div class="action_container">
 						
-						<%= f.submit :Shrink, :id => 'btn_shrink', :class => "btn btn-success" %>
 						<%= f.hidden_field :unique_key, :value => @url.unique_key %>
 						
+						<div  name="commit" id="btn_shrink" class="btn btn-success">
+							<span>Shrink</span>
+						</div> 
 					
 					</div>
 				<% end %>

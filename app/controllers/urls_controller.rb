@@ -36,13 +36,22 @@ class UrlsController < ApplicationController
 
 		respond_to do |format|
 			if @url.save
-				
-				format.html { render action: "index" }
-				format.json { render :json => { :urls => @urls, :shortenURL => @shortenURL } }
+				@url_uniquekey = @url.unique_key
+				@shortedURL = @shortenURL + @url_uniquekey
+
+				format.html { render action: "_list" }
+				format.json { render :json => { 
+						:status => 200,
+						:urls => @urls, 
+						:shortenURL => @shortenURL,
+						:shortedURL => @shortedURL,
+						:url => @url } 
+				}
 			else
 
-				format.html { render action: "index" }
+				format.html { render action: "_list" }
 				format.json { render :json => { 
+						:status => -1,
 						:errors => @url.errors, 
 						:urls => @urls, 
 						:shortenURL => @shortenURL }, 
@@ -50,6 +59,16 @@ class UrlsController < ApplicationController
 				}
 			end
 		end
+	end
+
+	def show_partial
+		@urls = Url.all
+		@url = Url.new
+		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
+		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
+		@hostname = request.host
+		@hostport = request.port
+		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
 	end
 
 	def update 
