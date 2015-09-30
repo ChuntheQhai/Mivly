@@ -7,12 +7,8 @@ class UrlsController < ApplicationController
 		@hostname = request.host
 		@hostport = request.port
 		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
-
-
-
-
 	end
-
+ 
 	def show 
 		url = Url.where(:unique_key => params[:id]).first
 
@@ -33,16 +29,37 @@ class UrlsController < ApplicationController
 
 	def create
 		@url = Url.new(urls_params)
+		@urls = Url.all
+		@hostname = request.host
+		@hostport = request.port
+		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
 
-		if @url.save
-			redirect_to urls_path
-		else
-			render "new"
+		respond_to do |format|
+			if @url.save
+				
+				format.html { render action: "index" }
+				format.json { render :json => { :urls => @urls, :shortenURL => @shortenURL } }
+			else
+
+				format.html { render action: "index" }
+				format.json { render :json => { 
+						:errors => @url.errors, 
+						:urls => @urls, 
+						:shortenURL => @shortenURL }, 
+						status: :unprocessable_entity
+				}
+			end
 		end
+	end
+
+	def update 
+
 	end
 
 	private
 		def urls_params
 			params.require(:url).permit(:original_url, :unique_key)
 		end
+
+
 end

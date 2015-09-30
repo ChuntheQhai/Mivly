@@ -80,9 +80,27 @@ body {
 	position:absolute;
 	right:31%;
 	height:46px;
-	opacity:0.6;
+	opacity:0.8;
 	width:inherit;
 
+	
+	span {
+		line-height: 3.5;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+.action_status_error {
+	background-color: #d9534f;
+	border-color: #d43f3a;
+	right: -17%;
+	color:white;
+	position:absolute;
+	height:46px;
+	opacity:0.9;
+
+	width:inherit;
 	span {
 		line-height: 3.5;
 		padding-left: 15px;
@@ -148,4 +166,8 @@ body {
 
 .glyphicon {
 	top: 0px!important;
+}
+
+.form-control {
+	height: 46px;
 }

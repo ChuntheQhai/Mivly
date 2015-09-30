@@ -11,11 +11,8 @@
 						
 						<%= f.submit :Shrink, :id => 'btn_shrink', :class => "btn btn-success" %>
 						<%= f.hidden_field :unique_key, :value => @url.unique_key %>
-						<!-- <div type="submit" name="commit" id="btn_shrink"class="btn btn-success">
-							<span>Shrink</span>
-						</div> -->
-
 						
+					
 					</div>
 				<% end %>
 				<div class="action_status" style="display:none;">
@@ -23,6 +20,16 @@
 						Copied URL!
 					</span>
 				</div>
+
+				<% if @url.errors.any? %>
+					<% @url.errors.full_messages.each do |msg| %>
+						<div class="action_status_error">
+							<span>
+								Input is not a valid URL
+							</span>
+						</div>
+					<% end %>
+				<% end %>
 				<div class="action_reshrink" style="display:none;clear:both">
 					<span>
 						<a id="btn_reshrink"> Shorten another link</a> 
