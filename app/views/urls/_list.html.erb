@@ -1,6 +1,6 @@
 	<div class="container_list_back"></div>
 	<div class="container_list">
-		<h1> Listing Shortener URL </h1>
+		<h3>URL History</h3>
 		<table>
 			<tr>
 				<th>Original URL</th>
@@ -9,14 +9,21 @@
 				<th>Clicks</th>
 			</tr>
 
-			<% @urls.each do |url| %>
-			<tr>
-				<td><%= url.original_url %></td>
-				<td><%= link_to @shortenURL+url.unique_key, @shortenURL+url.unique_key, target: "_blank"  %></td>
-				<td><%= url.created_at %></td>
-				<td><%= url.click_count %> </td>
-			</tr>
+			<% if !@urls.empty? %>
+				<% @urls.each do |url| %>
+					<tr>
+						<td><%= url.original_url %></td>
+						<td><%= link_to @shortenURL+url.unique_key, @shortenURL+url.unique_key, target: "_blank"  %></td>
+						<td><%= url.created_at %></td>
+						<td><%= url.click_count %> </td>
+					</tr>
+				<% end %>
 			<% end %>
+			
 		</table>
+		<% if @urls.empty? %>
+				<h3> Ops! There is no shortened URL in the past history.</h3>
+			<% else %>
+		<% end %>
 	</div>
 	

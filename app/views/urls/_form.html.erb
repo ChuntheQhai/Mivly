@@ -11,7 +11,7 @@
 						
 						<%= f.hidden_field :unique_key, :value => @url.unique_key %>
 						
-						<div  name="commit" id="btn_shrink" class="btn btn-success">
+						<div  name="commit999" id="btn_shrink" class="btn btn-success">
 							<span>Shrink</span>
 						</div> 
 					
@@ -23,15 +23,14 @@
 					</span>
 				</div>
 
-				<% if @url.errors.any? %>
-					<% @url.errors.full_messages.each do |msg| %>
-						<div class="action_status_error">
-							<span>
-								Input is not a valid URL
-							</span>
-						</div>
-					<% end %>
-				<% end %>
+				<div class="action_status_error" style="display:none;">
+					<span>
+						Input is not a valid URL
+					</span>
+				</div>
+
+				
+
 				<div class="action_reshrink" style="display:none;clear:both">
 					<span>
 						<a id="btn_reshrink"> Shorten another link</a> 

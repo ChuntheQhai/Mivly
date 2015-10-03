@@ -3,8 +3,9 @@
 		<div class="main">
 			<h1>Miz.ly</h1>
 			<h4>Shorten and track your URL anytime anywhere.</h4>
-			<%= render 'form', :url => @url %>
-
+			<div class="partial_form_dynamic">
+				<%= render 'form', :url => @url %>
+			</div>
 		</div>
 
 		<div class="partial_dynamic">

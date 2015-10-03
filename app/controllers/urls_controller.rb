@@ -2,9 +2,7 @@ class UrlsController < ApplicationController
 	def index
 		@urls = Url.all
 		@url = Url.new
-		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
-		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
-		@hostname = request.host
+	    @hostname = request.host
 		@hostport = request.port
 		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
 	end
@@ -33,6 +31,7 @@ class UrlsController < ApplicationController
 		@hostname = request.host
 		@hostport = request.port
 		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
+
 
 		respond_to do |format|
 			if @url.save
@@ -69,6 +68,13 @@ class UrlsController < ApplicationController
 		@hostname = request.host
 		@hostport = request.port
 		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
+	end
+
+	def _form
+		@url = Url.new
+
+		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
+		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
 	end
 
 	def update 

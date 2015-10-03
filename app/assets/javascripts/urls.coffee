@@ -4,22 +4,10 @@
 
 
 $(document).on 'click', '#btn_shrink', ->
-  input = '#shrink_url'
-  $(input).attr 'data-default', $(input).width()
-  $(input).animate { width: 45+'%' }, 'slow'
+  $('form#form-add-url').submit()
+  return 
+    
 
-  $(this).html "<span>Copy URL</span>"
-  $('#shrink_url_input').attr 'readonly', 'true'
-  $('#btn_shrink').attr 'id', 'btn_copyURL'
-
-  $('.action_reshrink').css "display", "block"
-  $('.icon-copy').css "display", "block"
-
-  #Refresh list of shorten URLs
-  #$("form#new_url").submit()
-  $('form#form-add-url').unbind('submit').submit() 
-
-  return
 
 $(document).on 'click', '#btn_copyURL', ->
   status = $('.action_status');
@@ -27,7 +15,7 @@ $(document).on 'click', '#btn_copyURL', ->
   shrinkURL.select()
   document.execCommand 'Copy'
   status.fadeIn 'fast', ->
-  	status.animate { right: 155 }
+  	status.animate { right: -50 }
   	status.fadeTo "fast", 0.9
 
   status.fadeIn 'slow', ->
@@ -38,10 +26,15 @@ $(document).on 'click', '#btn_copyURL', ->
   ), 2300
   return
 
+$(document).on 'focus', '#shrink_url_input',  ->
+  if $('#shrink_url_input').is('[readonly]')
+  else
+    document.getElementById("shrink_url_input").value = "https://"
+
 $(document).on 'click', '#btn_reshrink', ->
   input = '#shrink_url'
   $(input).attr 'data-default', $(input).width()
-  $(input).animate { width: 78+'%' }, 'slow'
+  $(input).animate { width: 70+'%' }, 'slow'
 
   $('#shrink_url_input').removeAttr 'readonly'
   $('#shrink_url_input').val("")
@@ -53,42 +46,53 @@ $(document).on 'click', '#btn_reshrink', ->
   $('.action_reshrink').css "display", "none"
   $('.icon-copy').css "display", "none"
 
-  unique_key = $('div.action_container input').attr('value')
-  md5 = $.md5(unique_key)
-  md5_uniquekey = md5.substr(1,8)
-  $('div.action_container input').attr('value',md5_uniquekey)
 
+  location.reload()
   return
 
+$(document).ready ->
+   $('form#form-add-url').submit (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    values = $(this).serialize()
+    $.ajax
+      type: 'POST'
+      url: $(this).attr('action')
+      data: values
+      dataType: 'JSON'
+      success: (data) ->
 
-$(document).on 'submit', 'form#form-add-url', (e) ->
-  e.preventDefault()
-  e.stopImmediatePropagation()
-  values = $(this).serialize()
-  $.ajax
-    type: 'POST'
-    url: $(this).attr('action')
-    data: values
-    dataType: 'JSON'
-    success: (data) ->
-      $('.partial_dynamic').load '/refresh/list'
-      $('#shrink_url_input').val(data['shortedURL'])
-      alert values
-      alert 'SUCCESS'
-      return
-  false
+        input = '#shrink_url'
+        $(input).attr 'data-default', $(input).width()
+        $(input).animate { width: 70+'%' }, 'slow'
 
-# $('#new_url').submit ->
-#   values = $(this).serialize()
-#   $.ajax
-#     type: 'POST'
-#     url: $(this).attr('action')
-#     data: values
-#     dataType: 'JSON'
-#     success: ->
-#       $('.partial_dynamic').load '/refresh/list'
-#       alert 'SUCCESS'
-#       return
-#     false
+        $('#btn_shrink').html "<span>Copy URL</span>"
+        $('#shrink_url_input').attr 'readonly', 'true'
+        $('#btn_shrink').attr 'id', 'btn_copyURL'
+
+        $('.action_reshrink').css "display", "block"
+        $('.icon-copy').css "display", "block"
+
+        $('.partial_dynamic').load '/refresh/list'
+
+        $('#shrink_url_input').val(data['shortedURL'])
+        return
+      error: (XMLHttpRequest, textStatus, errorThrown) ->
+
+        status_error = $('.action_status_error')
+        status_error.fadeIn 'fast', ->
+          status_error.animate { right: -120 }
+          status_error.fadeTo "fast", 0.9
+
+        status_error.fadeIn  'slow', ->
+          status_error.css 'display', 'block'
+
+        setTimeout (->
+          status_error.fadeOut()
+        ), 2300
+
+        return
+    false
+
 
 
