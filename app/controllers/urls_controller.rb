@@ -4,6 +4,8 @@ class UrlsController < ApplicationController
 		@url = Url.new
 	    @hostname = request.host
 		@hostport = request.port
+		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
+		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
 		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
 	end
  
