@@ -2,11 +2,8 @@ class UrlsController < ApplicationController
 	def index
 		@urls = Url.all
 		@url = Url.new
-	    @hostname = request.host
-		@hostport = request.port
-		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
-		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
-		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
+		get_url_unique_key
+		get_shortener_url
 	end
  
 	def show 
@@ -22,24 +19,22 @@ class UrlsController < ApplicationController
 
 	def new
 		@url = Url.new
-
-		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
-		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
 	end
 
 	def create
 		@url = Url.new(urls_params)
 		@urls = Url.all
-		@hostname = request.host
-		@hostport = request.port
-		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
+		get_shortener_url
 
 
 		respond_to do |format|
+			#If the URL is valid, it will 
 			if @url.save
+				# Create full links for URL Shortener
 				@url_uniquekey = @url.unique_key
 				@shortedURL = @shortenURL + @url_uniquekey
 
+				# Output with json and return 200 means success
 				format.html { render action: "_list" }
 				format.json { render :json => { 
 						:status => 200,
@@ -49,7 +44,7 @@ class UrlsController < ApplicationController
 						:url => @url } 
 				}
 			else
-
+				#Output with json and retun -1 which indicate failure
 				format.html { render action: "_list" }
 				format.json { render :json => { 
 						:status => -1,
@@ -65,18 +60,11 @@ class UrlsController < ApplicationController
 	def show_partial
 		@urls = Url.all
 		@url = Url.new
-		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
-		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
-		@hostname = request.host
-		@hostport = request.port
-		@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
+		get_shortener_url
 	end
 
 	def _form
 		@url = Url.new
-
-		letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
-		@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
 	end
 
 	def update 
@@ -86,6 +74,17 @@ class UrlsController < ApplicationController
 	private
 		def urls_params
 			params.require(:url).permit(:original_url, :unique_key)
+		end
+
+		def get_url_unique_key
+			letters = [('a'..'z'),('A'..'Z')].map { |i| i.to_a }.flatten
+			@url.unique_key = (0...8).map{ letters[rand(letters.length)] }.join
+		end
+
+		def get_shortener_url
+			@hostname = request.host
+			@hostport = request.port
+			@shortenURL = "http://"+@hostname+":"+@hostport.to_s+"/"
 		end
 
 
