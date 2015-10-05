@@ -1,17 +1,16 @@
 == Getting Started
 
-1. Git clone or unzip the files into your directory
+1) Git clone or unzip the files into your directory
 
-2. Browse the folder directory called "Mivly" with the following command in your console or terminal:
+2) Browse the folder directory called "Mivly" with the following command in your console or terminal:
 
-   cd mivly
+  cd mivly
+
+3) Migrate database with the following command:
+
+  rails rake:db
   
-
-3. Migrate database with the following command:
-
-   rails rake:db
-  
-4. Start your localhost server with the following command:
+4) Start your localhost server with the following command:
 
   rails s
   
